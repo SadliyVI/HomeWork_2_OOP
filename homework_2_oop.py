@@ -3,12 +3,12 @@ def get_file_path(file_name):
     Return the full file path of a file given its name.
 
     Args:
-        file_name (str): Name of the file.
+        file_name(str): Name of the file and extension
+                        Format: 'name.extension'
     """
     import os
     file_path = os.path.join(os.getcwd(), file_name)
     return file_path
-
 
 def get_recipe_dictionary (file_path):
     """
@@ -27,7 +27,6 @@ def get_recipe_dictionary (file_path):
             if line == '':
                 lines_list.remove(line)
         cook_book = {}
-        print(lines_list)
         for line in lines_list:
             if '|' not in line and not line.isdigit():
                 cook_book[line] = []
@@ -35,7 +34,7 @@ def get_recipe_dictionary (file_path):
                 index = lines_list.index(line) + 2
                 while counter > 0:
                     ingredient = {'ingredient_name': '', 'quantity': 0,
-                                 'measure': ''}
+                                  'measure': ''}
                     ingredient['ingredient_name'] = lines_list[index].split(
                         '|')[0].strip()
                     ingredient['quantity'] = lines_list[index].split('|')[1].strip()
@@ -43,7 +42,8 @@ def get_recipe_dictionary (file_path):
                     cook_book[line].append(ingredient)
                     counter -= 1
                     index += 1
-            print(cook_book)
+        return cook_book
 
-print(get_file_path('recipe_book.txt'))
-get_recipe_dictionary(get_file_path('recipe_book.txt'))
+import pprint
+
+pprint.pp(get_recipe_dictionary(get_file_path('recipe_book.txt')), width = 110)
