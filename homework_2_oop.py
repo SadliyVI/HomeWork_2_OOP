@@ -83,7 +83,6 @@ def get_shop_list_by_dishes(dishes_list, person_count):
                 else: shopping_list[ingredient['ingredient_name']][
                     'quantity'] += (float(ingredient['quantity']) *
                                     person_count)
-
     return shopping_list
 
 # Example usage for Task 2
@@ -105,13 +104,15 @@ def get_files_list(directory):
     import os
     return [name for name in os.listdir(directory)]
 
-def get_consolidated_texts(target_directory):
+def get_consolidated_texts(target_directory, output_file_name):
     """
-    Consolidate all text files in a given directory into a single file,
-    with the filename and its line count written at the beginning of each file.
+    Combines all text files in a given directory into one file, specifying
+    names of source files and the number of lines in it, written at the
+    beginning of each paragraph.
 
     Args:
         target_directory (str): Name of the target directory.
+        output_file_name (str): Name of the output file.Format: 'name.extension'
     """
 
     import os
@@ -124,7 +125,7 @@ def get_consolidated_texts(target_directory):
                 if file in lines:
                     lines[file] += f.readlines()
                 else: lines[file] = f.readlines()
-        with open(os.path.join(os.getcwd(), 'consolidated_texts.txt'), 'w',
+        with open(os.path.join(os.getcwd(), output_file_name), 'w',
                       encoding='UTF-8') as f:
             for file, content in lines.items():
                 f.write(f'{file}\n{len(content)}\n')
@@ -133,10 +134,10 @@ def get_consolidated_texts(target_directory):
     else:
         print('Директория с таким именем не найдена!')
 
-# Example usage for Task 2
+# Example usage for Task 3
 
 print('\n')
 print('Example usage for Task 3\n')
-get_consolidated_texts('Texts')
+get_consolidated_texts('Texts', 'consolidated_texts.txt')
 with open('consolidated_texts.txt', 'r', encoding='UTF-8') as f:
     print(f.read())
