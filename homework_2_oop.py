@@ -1,3 +1,7 @@
+# Homework OOPs part 2
+
+# Task 1
+
 def get_file_path(file_name):
     """
     Return the full file path of a file given its name.
@@ -14,7 +18,8 @@ def get_recipe_dictionary (file_path):
     """
     Read the recipes from a file and return a dictionary with recipes.
     Each recipe is represented as a key in the dictionary,
-    and the value is a list of dictionaries, where each dictionary represents an ingredient.
+    and the value is a list of dictionaries, where each dictionary represents
+    an ingredient.
     Each ingredient dictionary has three keys: 'ingredient_name',
     'quantity', and 'measure'.
 
@@ -35,19 +40,24 @@ def get_recipe_dictionary (file_path):
                 while counter > 0:
                     ingredient = {'ingredient_name': '', 'quantity': 0,
                                   'measure': ''}
-                    ingredient['ingredient_name'] = lines_list[index].split('|')[0].strip()
+                    ingredient['ingredient_name'] = lines_list[index].split(
+                        '|')[0].strip()
                     ingredient['quantity'] = float(lines_list[index].split(
-                        '|')[
-                        1].strip())
-                    ingredient['measure'] = lines_list[index].split('|')[2].strip()
+                        '|')[1].strip())
+                    ingredient['measure'] = lines_list[index].split(
+                        '|')[2].strip()
                     cook_book[line].append(ingredient)
                     counter -= 1
                     index += 1
         return cook_book
 
-# import pprint
-#
-# pprint.pp(get_recipe_dictionary(get_file_path('recipe_book.txt')), width = 110)
+# Example usage for Task 1
+
+import pprint
+print('Example usage for Task 1\n')
+pprint.pp(get_recipe_dictionary(get_file_path('recipe_book.txt')), width = 110)
+
+# Task 2
 
 def get_shop_list_by_dishes(dishes_list, person_count):
     """
@@ -76,5 +86,57 @@ def get_shop_list_by_dishes(dishes_list, person_count):
 
     return shopping_list
 
-print(get_shop_list_by_dishes(['Омлет', 'Запеченный картофель',
-                               'Салат Оливье'], 5))
+# Example usage for Task 2
+
+print('\n')
+print('Example usage for Task 2\n')
+pprint.pp(get_shop_list_by_dishes(['Омлет', 'Запеченный картофель',
+                                   'Салат Оливье'], 5))
+
+# Task 3
+
+def get_files_list(directory):
+    """
+    Return a list of all files in a given directory.
+
+    Args:
+        directory (str): Name of the target directory.
+    """
+    import os
+    return [name for name in os.listdir(directory)]
+
+def get_consolidated_texts(target_directory):
+    """
+    Consolidate all text files in a given directory into a single file,
+    with the filename and its line count written at the beginning of each file.
+
+    Args:
+        target_directory (str): Name of the target directory.
+    """
+
+    import os
+    files_list = get_files_list(target_directory)
+    lines = {}
+    if files_list:
+        for file in files_list:
+            with open(os.path.join(target_directory, file), 'r',
+                      encoding='UTF-8') as f:
+                if file in lines:
+                    lines[file] += f.readlines()
+                else: lines[file] = f.readlines()
+        with open(os.path.join(os.getcwd(), 'consolidated_texts.txt'), 'w',
+                      encoding='UTF-8') as f:
+            for file, content in lines.items():
+                f.write(f'{file}\n{len(content)}\n')
+                f.writelines(content)
+                f.write('\n')
+    else:
+        print('Директория с таким именем не найдена!')
+
+# Example usage for Task 2
+
+print('\n')
+print('Example usage for Task 3\n')
+get_consolidated_texts('Texts')
+with open('consolidated_texts.txt', 'r', encoding='UTF-8') as f:
+    print(f.read())
