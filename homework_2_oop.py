@@ -125,6 +125,7 @@ def get_consolidated_texts(target_directory, output_file_name):
                 if file in lines:
                     lines[file] += f.readlines()
                 else: lines[file] = f.readlines()
+        lines = dict(sorted(lines.items(), key = lambda item: len(item[1])))
         with open(os.path.join(os.getcwd(), output_file_name), 'w',
                       encoding='UTF-8') as f:
             for file, content in lines.items():
